@@ -1,8 +1,7 @@
 const User = require('../models/user.model');
 const UserType = require('../models/userType.model');
-const bcrypt = require('bcrypt');
 
-const initializeAdmin = async () => {
+const initializeAdmins = async (adminsData) => {
   try {
     const adminType = await UserType.findOne({ type: 'admin' });
 
@@ -11,28 +10,26 @@ const initializeAdmin = async () => {
       return;
     }
 
-    const existingAdmin = await User.findOne({ userType: adminType._id });
+    for (const adminData of adminsData) {
+      const existingAdmin = await User.findOne({ username: adminData.username });
 
-    if (existingAdmin) {
-      console.log('Admin user already exists.');
-      return;
+      if (existingAdmin) {
+        console.log(`Admin user '${adminData.username}' already exists.`);
+        continue;
+      }
+
+      const adminUser = new User({
+        ...adminData,
+        userType: adminType._id,
+      });
+
+      await adminUser.save();
+
+      console.log(`Admin user '${adminData.username}' created successfully.`);
     }
-
-    const adminUser = new User({
-      username: "sara12", 
-      password: "aliali", 
-      firstName: "sara",
-      lastName: "safa",
-      profilePicture: "img.url",
-      userType: adminType._id,
-    });
-
-    await adminUser.save();
-
-    console.log('Admin user created successfully.');
   } catch (error) {
-    console.error('Error creating admin user:', error);
+    console.error('Error creating admin user(s):', error);
   }
 };
 
-module.exports = initializeAdmin;
+module.exports = initializeAdmins;

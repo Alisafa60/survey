@@ -7,11 +7,28 @@ const initializeUserTypes = require("./initializeUserTypes");
 const mongoose = require("mongoose");
 const initializeAdmin = require("./initializeAdmin");
 
+const adminsData = [
+    {
+      username: 'sara12',
+      password: 'aliali',
+      firstName: 'Sara',
+      lastName: 'Safa',
+      profilePicture: 'img.url',
+    },
+    {
+      username: 'ali',
+      password: 'aliali',
+      firstName: 'ali',
+      lastName: 'safa',
+      profilePicture: 'img.url',
+    },
+  ];
+
 const initializeData = async () => {
   try {
     connectToMongoDB();
     await initializeUserTypes();
-    await initializeAdmin();
+    await initializeAdmin(adminsData);
 
     console.log("Data initialization completed successfully.");
   } catch (error) {
