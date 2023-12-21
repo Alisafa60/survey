@@ -5,7 +5,7 @@ const responseSchema = new mongoose.Schema({
   surveyId: { type: mongoose.Schema.Types.ObjectId, ref: 'Survey', required: true },
   answers: [
     {
-      questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Questions' },
+      questionId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question' },
       selectedOptions: [{ type: String }],
       text: { type: String },
     },
