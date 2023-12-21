@@ -2,6 +2,7 @@ const assert = require('assert');
 const path = require('path');
 const supertest = require('supertest');
 const app = require('../index');
+const jwt = require("jsonwebtoken");
 
 describe('Image Controller', () => {
   it('should upload an image', async function () {
@@ -17,7 +18,9 @@ describe('Image Controller', () => {
 
     const token = loginResponse.body.token;
 
-    const userId = '65847be8035bf563e0a2e89f';
+    const decodedToken = jwt.decode(token); 
+    const userId = decodedToken.user_id;
+
     const imagePath = path.resolve(__dirname, './test-img.jpg');
 
     const response = await supertest(app)
