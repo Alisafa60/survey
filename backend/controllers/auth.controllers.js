@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const UserType = require("../models/userType.model");
 
 const register = async (req, res) => {
   const { username, password, firstName, lastName, profilePicture } = req.body;
@@ -10,20 +11,21 @@ const register = async (req, res) => {
   }
 
   try {
+    const defaultUserType = await UserType.findOne({ type: "user" });
+
     const user = new User({
       username,
       password,
       firstName,
       lastName,
       profilePicture: req.body.profilePicture !== undefined ? profilePicture : null,
+      userType: defaultUserType,
     });
 
     await user.save();
 
-    // Send success response
     return res.status(200).json({ user });
   } catch (e) {
-    // Send error response
     console.error("Error in registration:", e);
     return res.status(500).json({ error: e.message });
   }
@@ -32,11 +34,9 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { username, password } = req.body;
 
-  // check if user is available in DB
   const user = await User.findOne({ username });
   if (!user) res.status(400).send({ message: "Invalid username/password" });
 
-  // check if password is correct
   const isValidPassword = await bcrypt.compare(password, user.password);
   if (!isValidPassword)
     res.status(400).send({ message: "Invalid username/password" });

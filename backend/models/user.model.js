@@ -28,6 +28,11 @@ const userSchema = new mongoose.Schema({
   profilePicture: {
     type: String,
   },
+  userType: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "UserType",
+    required: "True",
+  },
 });
 
 userSchema.pre(

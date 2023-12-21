@@ -9,19 +9,15 @@ app.get("/hello", (req, res) => {
 });
 
 // auth route
-const authRoutes = require("./routes/auth.routes");
-app.use("/auth", authRoutes);
+const authRoutes = require('./routes/auth.routes');
+const surveyRoutes = require('./routes/survey.routes');
+
+// Use routes
+app.use('/auth', authRoutes);
+app.use('/api', surveyRoutes);
 
 app.listen(8000, () => {
   console.log("Server listining on PORT: ", 8000);
-
-  //   db.connect((err) => {
-  //     if (err) {
-  //       console.log("Error connecting to db: ", err);
-  //     } else {
-  //       console.log("Connected to MySQL DB...");
-  //     }
-  //   });
 
   connectToMongoDB();
 });
