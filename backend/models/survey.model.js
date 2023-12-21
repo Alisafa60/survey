@@ -11,11 +11,11 @@ const surveySchema = new mongoose.Schema({
   questions: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Question",
+      ref: 'Question',
     },
   ],
 });
 
-const Survey = mongoose.model("Survey", surveySchema);
+const Survey = mongoose.model('Survey', surveySchema);
 
 module.exports = Survey;

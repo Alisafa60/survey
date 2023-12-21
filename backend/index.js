@@ -4,10 +4,6 @@ const app = express();
 app.use(express.json());
 require("dotenv").config();
 
-app.get("/hello", (req, res) => {
-  console.log("HELLO!!");
-});
-
 // auth route
 const authRoutes = require('./routes/auth.routes');
 const surveyRoutes = require('./routes/survey.routes');
